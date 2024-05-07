@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import { createLeaderboardEntry, fetchLeaderboard, updateLeaderboard } from '@/services/leaderboard/leaderboard'
 import { fetchGlobalBestScoreEntry, updateGlobalBestScore } from '@/services/leaderboard/globalBestScore'
 
 interface LeaderboardState {
@@ -9,7 +8,7 @@ interface LeaderboardState {
   fetchGlobalBestScore: () => Promise<void>
 }
 
-const useLeaderboard = create<LeaderboardState>(
+const useLeaderboardStore = create<LeaderboardState>(
   (set) => ({
     globalBestScore: Infinity,
     isLoading: false,
@@ -38,4 +37,4 @@ const useLeaderboard = create<LeaderboardState>(
   })
 )
 
-export default useLeaderboard
+export default useLeaderboardStore

@@ -12,7 +12,7 @@ interface PlayState {
   fetchMyBestScore: () => Promise<void>
 }
 
-const usePlayer = create(
+const usePlayerStore = create(
   persist<PlayState>(
     (set, get) => ({
       id: undefined,
@@ -75,4 +75,4 @@ const usePlayer = create(
   )
 )
 
-export default usePlayer
+export default usePlayerStore

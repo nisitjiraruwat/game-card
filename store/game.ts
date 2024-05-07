@@ -1,7 +1,7 @@
-import { randomCards } from '@/utils/card';
-import { create } from 'zustand';
-import usePlayer from './player';
-import useLeaderboard from './leaderboard';
+import { randomCards } from '@/utils/card'
+import { create } from 'zustand'
+import useLeaderboardStore from './leaderboard'
+import usePlayerStore from './player'
 
 const ORIGINAL_CARDS = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6]
 
@@ -92,8 +92,8 @@ const useGameStore = create<GameState>((set, get) => ({
   validateEndGame: () => {
     const emptyDisplayCardIndex = get().displayCards.findIndex((displayCard) => displayCard === '')
     const endScore = get().clickCount
-    const playerState = usePlayer.getState()
-    const leaderboardState = useLeaderboard.getState()
+    const playerState = usePlayerStore.getState()
+    const leaderboardState = useLeaderboardStore.getState()
 
     if (emptyDisplayCardIndex === -1) {
       if (playerState.myBestScore === undefined || endScore < playerState.myBestScore) {

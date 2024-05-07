@@ -1,7 +1,7 @@
 import CardItem from '@/components/CardItem';
 import useGameStore from '@/store/game';
-import useLeaderboard from '@/store/leaderboard';
-import usePlayer from '@/store/player';
+import useLeaderboardStore from '@/store/leaderboard';
+import usePlayerStore from '@/store/player';
 import clsx from 'clsx';
 import { Roboto } from 'next/font/google';
 import { useEffect, useMemo } from 'react';
@@ -12,8 +12,8 @@ const roboto = Roboto({
 });
 
 export default function HomePage() {
-  const { globalBestScore, fetchGlobalBestScore } = useLeaderboard()
-  const { myBestScore, fetchMyBestScore } = usePlayer()
+  const { globalBestScore, fetchGlobalBestScore } = useLeaderboardStore()
+  const { myBestScore, fetchMyBestScore } = usePlayerStore()
   const { displayCards, clickCount, newGame } = useGameStore()
 
   const displayMyBestScore = useMemo((): string | number => {
