@@ -1,29 +1,23 @@
-import CardItem from '@/components/CardItem';
-import Loading from '@/components/icons/Loading';
-import useGameStore from '@/store/game';
-import useLeaderboardStore from '@/store/leaderboard';
-import usePlayerStore from '@/store/player';
-import clsx from 'clsx';
-import { Roboto } from 'next/font/google';
-import { useEffect, useMemo } from 'react';
+import CardItem from '@/components/CardItem'
+import CardsBoard from '@/components/CardsBoard'
+import Loading from '@/components/Loading'
+import PlayerScoreBoard from '@/components/PlayerScoreBoard'
+import useGameStore from '@/store/game'
+import useLeaderboardStore from '@/store/leaderboard'
+import usePlayerStore from '@/store/player'
+import clsx from 'clsx'
+import { Roboto } from 'next/font/google'
+import { useEffect, useMemo } from 'react'
 
 const roboto = Roboto({
   subsets: ['latin'],
   weight: '400'
-});
+})
 
 export default function HomePage() {
-  const { isLoading: isLeaderboardLoading, globalBestScore, fetchGlobalBestScore } = useLeaderboardStore()
-  const { isLoading: isPlayerLoading, myBestScore, fetchMyBestScore } = usePlayerStore()
-  const { displayCards, clickCount, newGame } = useGameStore()
-
-  const displayMyBestScore = useMemo((): string | number => {
-    return myBestScore === undefined ? '-' : myBestScore
-  }, [myBestScore])
-
-  const displayGlobalBestScore = useMemo((): string | number => {
-    return globalBestScore === Infinity ? '-' : globalBestScore
-  }, [globalBestScore])
+  const { isLoading: isLeaderboardLoading, fetchGlobalBestScore } = useLeaderboardStore()
+  const { isLoading: isPlayerLoading, fetchMyBestScore } = usePlayerStore()
+  const { displayCards, newGame } = useGameStore()
 
   useEffect(() => {
     fetchGlobalBestScore()
@@ -35,43 +29,13 @@ export default function HomePage() {
     <main className={clsx('min-h-svh p-4 laptop:p-10', roboto.className)}>
       <div className='flex flex-col gap-4 laptop:flex-row'>
         <div className='flex-none'>
-          <div className='grid grid-cols-2 gap-y-4 rounded-md bg-[#e2be8b] p-2 laptop:grid-cols-1 laptop:py-4'>
-            <div>
-              <div className='text-center text-xl font-bold text-[#a32335]'>Click</div>
-              <div className='text-center text-lg'>{clickCount}</div>
-            </div>
-            <div>
-              <div className='text-center text-xl font-bold text-pink-900'>My Best Score</div>
-              <div className='text-center text-lg'>{displayMyBestScore}</div>
-            </div>
-            <div>
-              <div className='text-center text-xl font-bold text-yellow-900'>Global Best Score</div>
-              <div className='text-center text-lg'>{displayGlobalBestScore}</div>
-            </div>
-            <div className='flex justify-end laptop:justify-center'>
-              <button
-                className='rounded bg-slate-700 px-4 py-2 text-xl font-bold text-orange-500 hover:bg-slate-900'
-                onClick={newGame}
-              >
-                NEW GAME
-              </button>
-            </div>
-          </div>
+          <PlayerScoreBoard />
         </div>
-        <div className='flex-1 rounded-2xl border-8 border-[#99561b] bg-[#b7842b] p-4 shadow-md'>
-          <div className='grid grid-cols-3 gap-4 laptop:grid-cols-6'>
-            {displayCards.map((displayCard, index) => {
-              return (
-                <CardItem
-                  key={`display-card-${index}`}
-                  item={displayCard}
-                  index={index}
-                />)
-            })}
-          </div>
+        <div className='flex-1'>
+          <CardsBoard />
         </div>
       </div>
       {isLeaderboardLoading && isPlayerLoading && <Loading />}
     </main>
-  );
+  )
 }
