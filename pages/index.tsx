@@ -17,8 +17,8 @@ export default function HomePage() {
   }, [newGame])
 
   return (
-    <main className={clsx('min-h-svh p-4 laptop:p-24', roboto.className)}>
-      <div className='flex flex-col laptop:flex-row'>
+    <main className={clsx('min-h-svh p-4 laptop:p-20', roboto.className)}>
+      <div className='flex flex-col gap-4 laptop:flex-row'>
         <div>
           <div>Click: {clickCount}</div>
           <div><button onClick={newGame}>New Game</button></div>
