@@ -1,4 +1,5 @@
 import CardItem from '@/components/CardItem';
+import Loading from '@/components/icons/Loading';
 import useGameStore from '@/store/game';
 import useLeaderboardStore from '@/store/leaderboard';
 import usePlayerStore from '@/store/player';
@@ -12,8 +13,8 @@ const roboto = Roboto({
 });
 
 export default function HomePage() {
-  const { globalBestScore, fetchGlobalBestScore } = useLeaderboardStore()
-  const { myBestScore, fetchMyBestScore } = usePlayerStore()
+  const { isLoading: isLeaderboardLoading, globalBestScore, fetchGlobalBestScore } = useLeaderboardStore()
+  const { isLoading: isPlayerLoading, myBestScore, fetchMyBestScore } = usePlayerStore()
   const { displayCards, clickCount, newGame } = useGameStore()
 
   const displayMyBestScore = useMemo((): string | number => {
@@ -69,7 +70,8 @@ export default function HomePage() {
             })}
           </div>
         </div>
-    </div>
+      </div>
+      {isLeaderboardLoading && isPlayerLoading && <Loading />}
     </main>
   );
 }
