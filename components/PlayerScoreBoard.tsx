@@ -25,11 +25,17 @@ export default function PlayerScoreBoard () {
       </div>
       <div>
         <div className='whitespace-nowrap text-center text-xl font-bold text-pink-900'>My Best Score</div>
-        <div className='text-center text-lg'>{displayMyBestScore}</div>
+        <div
+          data-testid="my-best-score"
+          className='text-center text-lg'
+        >{displayMyBestScore}</div>
       </div>
       <div>
         <div className='whitespace-nowrap text-center text-xl font-bold text-yellow-900'>Global Best Score</div>
-        <div className='text-center text-lg'>{displayGlobalBestScore}</div>
+        <div
+          data-testid="global-best-score"
+          className='text-center text-lg'
+        >{displayGlobalBestScore}</div>
       </div>
       <div className='flex justify-end laptop:justify-center'>
         <button
