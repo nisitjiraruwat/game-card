@@ -17,7 +17,7 @@ const roboto = Roboto({
 export default function HomePage() {
   const { isLoading: isLeaderboardLoading, fetchGlobalBestScore } = useLeaderboardStore()
   const { isLoading: isPlayerLoading, fetchMyBestScore } = usePlayerStore()
-  const { displayCards, newGame } = useGameStore()
+  const { newGame } = useGameStore()
 
   useEffect(() => {
     fetchGlobalBestScore()

@@ -20,15 +20,15 @@ export default function PlayerScoreBoard () {
   return (
     <div className='grid grid-cols-2 gap-y-4 rounded-md bg-[#e2be8b] p-2 laptop:grid-cols-1 laptop:py-4'>
       <div>
-        <div className='text-center text-xl font-bold text-[#a32335]'>Click</div>
+        <div className='whitespace-nowrap text-center text-xl font-bold text-[#a32335]'>Click</div>
         <div className='text-center text-lg'>{clickCount}</div>
       </div>
       <div>
-        <div className='text-center text-xl font-bold text-pink-900'>My Best Score</div>
+        <div className='whitespace-nowrap text-center text-xl font-bold text-pink-900'>My Best Score</div>
         <div className='text-center text-lg'>{displayMyBestScore}</div>
       </div>
       <div>
-        <div className='text-center text-xl font-bold text-yellow-900'>Global Best Score</div>
+        <div className='whitespace-nowrap text-center text-xl font-bold text-yellow-900'>Global Best Score</div>
         <div className='text-center text-lg'>{displayGlobalBestScore}</div>
       </div>
       <div className='flex justify-end laptop:justify-center'>
