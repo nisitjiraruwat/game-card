@@ -1,5 +1,7 @@
 import { randomCards } from '@/utils/card';
 import { create } from 'zustand';
+import usePlayer from './player';
+import useLeaderboard from './leaderboard';
 
 const ORIGINAL_CARDS = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6]
 
@@ -14,6 +16,7 @@ interface GameState {
   clickCard: (index: number) => void
   setIsPaused: (value: boolean) => void
   validatePredictCard: () => void
+  validateEndGame: () => void
 }
 
 const useGameStore = create<GameState>((set, get) => ({
@@ -69,6 +72,8 @@ const useGameStore = create<GameState>((set, get) => ({
         predictCardIndexList: [],
         displayCards
       }))
+
+      get().validateEndGame()
     } else {
       const validatePredictCardTimeout = setTimeout(() => {
         set(() => ({
@@ -82,6 +87,22 @@ const useGameStore = create<GameState>((set, get) => ({
       set(() => ({
         validatePredictCardTimeout
       }))
+    }
+  },
+  validateEndGame: () => {
+    const emptyDisplayCardIndex = get().displayCards.findIndex((displayCard) => displayCard === '')
+    const endScore = get().clickCount
+    const playerState = usePlayer.getState()
+    const leaderboardState = useLeaderboard.getState()
+
+    if (emptyDisplayCardIndex === -1) {
+      if (playerState.myBestScore === undefined || endScore < playerState.myBestScore) {
+        playerState.saveMyBestScore(endScore);
+      }
+
+      if (endScore < leaderboardState.globalBestScore) {
+        leaderboardState.updateGlobalBestScore(endScore);
+      }
     }
   }
 }))
