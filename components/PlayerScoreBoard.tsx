@@ -42,6 +42,7 @@ export default function PlayerScoreBoard () {
       </div>
       <div className='flex justify-end laptop:justify-center'>
         <button
+          data-testid="new-game-btn"
           className='rounded bg-slate-700 px-4 py-2 text-xl font-bold text-orange-500 hover:bg-slate-900'
           onClick={newGame}
         >
