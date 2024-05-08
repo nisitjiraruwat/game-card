@@ -371,4 +371,117 @@ describe('Page', () => {
       expect(screen.getByTestId('global-best-score').textContent).toBe(`${mockedGlobalBestScore.score}`)
     })
   })
+
+  it('Should go back to previous state when prediction cards were incorrect and paused before back to previous', async () => {
+    render(<HomePage />)
+
+    // wait fetching
+    await waitFor(() => { })
+
+    const clickCountElement = screen.getByTestId('click-count')
+    expect(clickCountElement.textContent).toBe('0')
+
+    const cardItemElements = screen.getAllByTestId('card-item')
+
+    for (let itemKey in cardItemElements) {
+      expect(cardItemElements[itemKey].textContent).toBe('')
+    }
+
+    expect(useGameStore.getState().isPaused).toBe(false)
+
+    // Click 1,1
+    fireEvent.click(cardItemElements[1]) // 1 number index
+    expect(cardItemElements[1].textContent).toBe('1')
+    expect(clickCountElement.textContent).toBe('1')
+
+    fireEvent.click(cardItemElements[11]) // 1 number index
+    expect(cardItemElements[11].textContent).toBe('1')
+    expect(clickCountElement.textContent).toBe('2')
+
+    expect(useGameStore.getState().isPaused).toBe(false)
+
+    jest.useFakeTimers()
+  
+    // Click 2,5
+    fireEvent.click(cardItemElements[2]) // 2 number index
+    expect(cardItemElements[2].textContent).toBe('2')
+    expect(clickCountElement.textContent).toBe('3')
+
+    fireEvent.click(cardItemElements[9]) // 5 number index
+    expect(cardItemElements[9].textContent).toBe('5')
+    expect(clickCountElement.textContent).toBe('4')
+
+    expect(useGameStore.getState().isPaused).toBe(true)
+
+    await act(async () => {
+      await jest.advanceTimersByTimeAsync(3000) // Mock timeout go back to previous state
+    })
+
+    expect(cardItemElements[2].textContent).toBe('')
+    expect(cardItemElements[9].textContent).toBe('')
+    expect(clickCountElement.textContent).toBe('4')
+    expect(useGameStore.getState().isPaused).toBe(false)
+
+    jest.useRealTimers()
+  })
+
+  it('Should can\t click other cards when game is paused', async () => {
+    render(<HomePage />)
+
+    // wait fetching
+    await waitFor(() => { })
+
+    const clickCountElement = screen.getByTestId('click-count')
+    expect(clickCountElement.textContent).toBe('0')
+
+    const cardItemElements = screen.getAllByTestId('card-item')
+
+    for (let itemKey in cardItemElements) {
+      expect(cardItemElements[itemKey].textContent).toBe('')
+    }
+
+    expect(useGameStore.getState().isPaused).toBe(false)
+
+    // Click 1,1
+    fireEvent.click(cardItemElements[1]) // 1 number index
+    expect(cardItemElements[1].textContent).toBe('1')
+    expect(clickCountElement.textContent).toBe('1')
+
+    fireEvent.click(cardItemElements[11]) // 1 number index
+    expect(cardItemElements[11].textContent).toBe('1')
+    expect(clickCountElement.textContent).toBe('2')
+
+    expect(useGameStore.getState().isPaused).toBe(false)
+
+    jest.useFakeTimers()
+  
+    // Click 2,5
+    fireEvent.click(cardItemElements[2]) // 2 number index
+    expect(cardItemElements[2].textContent).toBe('2')
+    expect(clickCountElement.textContent).toBe('3')
+
+    fireEvent.click(cardItemElements[9]) // 5 number index
+    expect(cardItemElements[9].textContent).toBe('5')
+    expect(clickCountElement.textContent).toBe('4')
+
+    expect(useGameStore.getState().isPaused).toBe(true)
+
+    // can't click other card
+    fireEvent.click(cardItemElements[0]) // 6 number index
+    expect(cardItemElements[0].textContent).toBe('')
+    expect(clickCountElement.textContent).toBe('4')
+
+    await act(async () => {
+      await jest.advanceTimersByTimeAsync(3000) // Mock timeout go back to previous state
+    })
+
+    expect(useGameStore.getState().isPaused).toBe(false)
+
+    // can click other card
+    fireEvent.click(cardItemElements[0]) // 6 number index
+    expect(cardItemElements[0].textContent).toBe('6')
+    expect(clickCountElement.textContent).toBe('5')
+
+    jest.useRealTimers()
+  })
 })
