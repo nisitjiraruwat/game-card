@@ -1,17 +1,41 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Getting Started
 
-First, run the development server:
+## Setup mockapi.io
+
+Create 2 Resources [`Link`](https://mockapi.io)
+
+### 1. global-best-score
+Schema
+- score (Type: Number)
+
+### 2. leaderboards
+Schema
+- score (Type: Number)
+
+> [!CAUTION]
+> Must insert 1 or more rows to the global-best-score resource for default data
+
+## Getting Started Local
+
+First, Set up environment variables on .env.local file:
+
+```plaintext
+# .env.local
+
+NEXT_PUBLIC_LEADERBOARD_URL=[mockapi.io API endpoint]
+```
+Run install packages:
+
+```bash
+npm ci
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -20,7 +44,18 @@ You can start editing the page by modifying `pages/index.tsx`. The page auto-upd
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
+## Run Test
+
+Run unit tests:
+
+```bash
+npm run test
+```
+
 ## Deploy on Vercel
+
+Set Up Environment Variables
+- NEXT_PUBLIC_LEADERBOARD_URL=[mockapi.io API endpoint]
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 

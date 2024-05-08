@@ -1,9 +1,7 @@
 import axios from 'axios'
 
-export const baseURL = 'https://6639da0f1ae792804bed037c.mockapi.io/api/'
-
 const leaderboardAxios = axios.create({
-  baseURL
+  baseURL: process.env.NEXT_PUBLIC_LEADERBOARD_URL
 })
 
 export default leaderboardAxios
