@@ -26,6 +26,7 @@ export default function CardItem (props: Props) {
 
   return (
     <div
+      data-testid="card-item"
       className={clsx(
         'flip-card relative aspect-card cursor-pointer',
         {
